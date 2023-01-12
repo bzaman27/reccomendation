@@ -94,7 +94,7 @@ def main():
 
     if st.button("Predict"):
         result=crop_recommend(N, P, K, temperature, humidity, ph, rainfall)
-    st.success('You can grow [ {} ] on your farm'.format(result))
+    st.success('You can grow  {}  on your farm'.format(result))
     if st.button("About"):
         st.text("Lets Learn")
         st.text("Built with Streamlit")
