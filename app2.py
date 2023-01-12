@@ -107,9 +107,10 @@ def main():
     
     #state = request.form.get("stt")
     #city = request.form.get("city")
-    #city = st.selectbox("city", cities_1) 
+    cities= pd.read_csv('all_cities.csv')
+    city = st.selectbox("city", cities) 
     #city = request.form.get("city")
-    city=st.text_input("city", "Enter value")
+    #city=st.text_input("city", "Enter value")
     if weather_fetch(city) != None:
         temperature, humidity = weather_fetch(city)
         return temperature, humidity
