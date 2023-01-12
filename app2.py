@@ -107,8 +107,10 @@ def main():
     
     #state = request.form.get("stt")
     #city = request.form.get("city")
-    cities= pd.read_csv('all_cities.csv')
-    city = st.selectbox("city", cities) 
+    df=pd.read_csv("all_cities.csv")
+    opt=tuple(df['Cities'])
+    city=st.selectbox("Select City",opt)
+    #city = st.selectbox("city", cities) 
     #city = request.form.get("city")
     #city=st.text_input("city", "Enter value")
     if weather_fetch(city) != None:
