@@ -21,28 +21,7 @@ crop_recommendation_model = pickle.load(open('rf_crop_reccomend.pkl', 'rb'))
 def welcome():
     return "Welcome All"
 
-def weather_fetch(city_name):
-    """
-    Fetch and returns the temperature and humidity of a city
-    :params: city_name
-    :return: temperature, humidity
-    """
-    api_key = "9762f6211b8885103b23e53733cf933c"
-    base_url = "http://api.openweathermap.org/data/2.5/weather?"
-    #https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 
-    complete_url = base_url + "q=" + city_name +"&appid=" + api_key
-    response = requests.get(complete_url)
-    x = response.json()
-
-    if x["cod"] != "404":
-        y = x["main"]
-
-        temperature = round((y["temp"] - 273.15), 2)
-        humidity = y["humidity"]
-        return temperature, humidity
-    else:
-        return None
     
    
 def crop_recommend(N, P, K, temperature, humidity, ph, rainfall):
@@ -88,7 +67,30 @@ def crop_recommend(N, P, K, temperature, humidity, ph, rainfall):
     prediction=crop_recommendation_model.predict([[N, P, K, temperature, humidity, ph, rainfall]])
     print(prediction)
     return prediction 
-   
+
+def weather_fetch(city_name):
+    """
+    Fetch and returns the temperature and humidity of a city
+    :params: city_name
+    :return: temperature, humidity
+    """
+    api_key = "9762f6211b8885103b23e53733cf933c"
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    #https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+
+    complete_url = base_url + "q=" + city_name +"&appid=" + api_key
+    response = requests.get(complete_url)
+    x = response.json()
+
+    if x["cod"] != "404":
+        y = x["main"]
+
+        temperature = round((y["temp"] - 273.15), 2)
+        humidity = y["humidity"]
+        return temperature, humidity
+    else:
+        return None
+
 def main():
     st.title("Crop Recommendation")
     html_temp = """
@@ -104,7 +106,7 @@ def main():
     rainfall = st.text_input("rainfall", "Enter value")
     
     #state = request.form.get("stt")
-    #city = st.text.input(request.form.get("city"))
+    #city = request.form.get("city")
     #city = st.selectbox("city", cities_1) 
     #city = request.form.get("city")
     city=st.text_input("city", "Enter value")
@@ -114,11 +116,7 @@ def main():
     result=""
     if st.button("Predict"):
         result=crop_recommend(N, P, K, temperature, humidity, ph, rainfall)
-        st.success('You can grow [ {} ]'.format(result))
-        if st.button("About"):
-            st.text("Lets Learn")
-            st.text("Built with Streamlit")    
-    
-    
+    st.success('You can grow [ {} ]'.format(result))
+           
 if __name__=='__main__':
-    main()
+    main()    
