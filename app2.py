@@ -111,13 +111,14 @@ def main():
     if weather_fetch(city) != None:
         temperature, humidity = weather_fetch(city)
         return temperature, humidity
+    result=""
     if st.button("Predict"):
         result=crop_recommend(N, P, K, temperature, humidity, ph, rainfall)
         st.success('You can grow [ {} ]'.format(result))
         if st.button("About"):
             st.text("Lets Learn")
             st.text("Built with Streamlit")    
-    result=""
+    
     
 if __name__=='__main__':
     main()
